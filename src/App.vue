@@ -14,12 +14,10 @@
 </template>
 
 <script lang="ts">
-import { ref, watch } from "vue";
+import { computed, ref, watch } from "vue";
 import { defineComponent } from "vue";
 import GameCard from "./components/GameCard.vue";
 import { Card, SelectedCard } from "./interfaces";
-
-type Status = "Pending" | "Matched!" | "Mismatch!";
 
 export default defineComponent({
   name: "App",
@@ -27,11 +25,26 @@ export default defineComponent({
   setup() {
     const cardList = ref<Card[]>([]);
     const userSelection = ref<SelectedCard[]>([]);
-    const status = ref<Status>("Pending");
+    let status = computed(() => {
+      if (remainingPairs.value === 0) {
+        return "Player Wins!";
+      } else {
+        return `Remaining Pairs: ${remainingPairs.value}`;
+      }
+    });
+
+    const remainingPairs = computed(() => {
+      const remainingCards = cardList.value.filter(
+        (card: Card) => card.matched === false
+      ).length;
+
+      return remainingCards / 2;
+    });
+
     for (let i = 0; i < 16; i++) {
       cardList.value.push({
         matched: false,
-        value: i,
+        value: 5,
         visible: false,
         position: i,
       });
@@ -54,13 +67,9 @@ export default defineComponent({
           const [cardOne, cardTwo] = currentValue;
 
           if (cardOne.faceValue === cardTwo.faceValue) {
-            status.value = "Matched!";
-
             cardList.value[cardOne.position].matched = true;
             cardList.value[cardTwo.position].matched = true;
           } else {
-            status.value = "Mismatch!";
-
             cardList.value[cardOne.position].visible = false;
             cardList.value[cardTwo.position].visible = false;
           }
