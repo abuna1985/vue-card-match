@@ -3,24 +3,41 @@
   <section class="game-board">
     <GameCard
       v-for="(card, index) in cardList"
-      :value="card"
+      :value="card.value"
+      :visible="card.visible"
       :key="`card-${index}`"
+      @select-card="flipCard"
+      :card="card"
     />
   </section>
 </template>
 
 <script lang="ts">
+import { ref } from "vue";
 import { defineComponent } from "vue";
 import GameCard from "./components/GameCard.vue";
-
+import { Card } from "./interfaces";
 export default defineComponent({
   name: "App",
   components: { GameCard },
   setup() {
-    const cardList = [...Array(16)].map((card, i) => i + 1);
+    const cardList = ref<Card[]>([]);
+
+    for (let i = 0; i < 16; i++) {
+      cardList.value.push({
+        value: i,
+        visible: false,
+        position: i,
+      });
+    }
+
+    const flipCard = (payload: Card) => {
+      cardList.value[payload.position].visible = true;
+    };
 
     return {
       cardList,
+      flipCard,
     };
   },
 });
@@ -34,10 +51,6 @@ export default defineComponent({
   -moz-osx-font-smoothing: grayscale;
   margin-top: 60px;
   text-align: center;
-}
-
-.card {
-  border: 5px solid #ccc;
 }
 
 .game-board {
