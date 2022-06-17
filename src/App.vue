@@ -11,6 +11,7 @@
     />
   </section>
   <h2>{{ status }}</h2>
+  <button @click="shuffleCards">Shuffle Cards</button>
 </template>
 
 <script lang="ts">
@@ -18,6 +19,7 @@ import { computed, ref, watch } from "vue";
 import { defineComponent } from "vue";
 import GameCard from "./components/GameCard.vue";
 import { Card, SelectedCard } from "./interfaces";
+import { shuffle } from "./helpers/index";
 
 export default defineComponent({
   name: "App",
@@ -41,11 +43,15 @@ export default defineComponent({
       return remainingCards / 2;
     });
 
+    const shuffleCards = () => {
+      cardList.value = shuffle(cardList.value);
+    };
+
     for (let i = 0; i < 16; i++) {
       cardList.value.push({
         matched: false,
-        value: 5,
-        visible: false,
+        value: i,
+        visible: true,
         position: i,
       });
     }
@@ -85,6 +91,7 @@ export default defineComponent({
       cardList,
       flipCard,
       status,
+      shuffleCards,
       userSelection,
     };
   },
