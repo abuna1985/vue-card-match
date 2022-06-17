@@ -1,7 +1,7 @@
 <template>
   <div class="card" @click="selectCard">
     <div v-if="card.visible" class="card-face is-front">
-      {{ card.value }}
+      {{ card.value }} {{ card.matched }}
     </div>
     <button v-else class="card-face is-back">Back</button>
   </div>
@@ -22,6 +22,7 @@ export default defineComponent({
   setup(props, context) {
     const selectCard = () => {
       context.emit("select-card", {
+        faceValue: props.card.value,
         position: props.card.position,
       });
     };

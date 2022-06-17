@@ -10,34 +10,73 @@
       :card="card"
     />
   </section>
+  <h2>{{ status }}</h2>
 </template>
 
 <script lang="ts">
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import { defineComponent } from "vue";
 import GameCard from "./components/GameCard.vue";
-import { Card } from "./interfaces";
+import { Card, SelectedCard } from "./interfaces";
+
+type Status = "Pending" | "Matched!" | "Mismatch!";
+
 export default defineComponent({
   name: "App",
   components: { GameCard },
   setup() {
     const cardList = ref<Card[]>([]);
-
+    const userSelection = ref<SelectedCard[]>([]);
+    const status = ref<Status>("Pending");
     for (let i = 0; i < 16; i++) {
       cardList.value.push({
+        matched: false,
         value: i,
         visible: false,
         position: i,
       });
     }
 
-    const flipCard = (payload: Card) => {
+    const flipCard = (payload: SelectedCard) => {
       cardList.value[payload.position].visible = true;
+
+      if (userSelection.value[0]) {
+        userSelection.value[1] = payload;
+      } else {
+        userSelection.value[0] = payload;
+      }
     };
+
+    watch(
+      userSelection,
+      (currentValue: SelectedCard[]) => {
+        if (currentValue.length === 2) {
+          const [cardOne, cardTwo] = currentValue;
+
+          if (cardOne.faceValue === cardTwo.faceValue) {
+            status.value = "Matched!";
+
+            cardList.value[cardOne.position].matched = true;
+            cardList.value[cardTwo.position].matched = true;
+          } else {
+            status.value = "Mismatch!";
+
+            cardList.value[cardOne.position].visible = false;
+            cardList.value[cardTwo.position].visible = false;
+          }
+
+          // cardTwo[cardTwo.position].visible = false;
+          userSelection.value.length = 0;
+        }
+      },
+      { deep: true }
+    );
 
     return {
       cardList,
       flipCard,
+      status,
+      userSelection,
     };
   },
 });
