@@ -1,6 +1,6 @@
 export interface Card {
   matched: boolean;
-  position: number;
+  position: number | null;
   value: number;
   visible: boolean;
 }

@@ -65,7 +65,7 @@ export default defineComponent({
         matched: false,
         value: item,
         visible: false,
-        position: index,
+        position: null,
       });
 
       cardList.value.push({
@@ -103,8 +103,10 @@ export default defineComponent({
             cardList.value[cardOne.position].matched = true;
             cardList.value[cardTwo.position].matched = true;
           } else {
-            cardList.value[cardOne.position].visible = false;
-            cardList.value[cardTwo.position].visible = false;
+            setTimeout(() => {
+              cardList.value[cardOne.position].visible = false;
+              cardList.value[cardTwo.position].visible = false;
+            }, 2000);
           }
 
           // cardTwo[cardTwo.position].visible = false;
