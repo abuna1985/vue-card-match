@@ -29,7 +29,7 @@ import { computed, ref, watch } from "vue";
 import { defineComponent } from "vue";
 import GameCard from "./components/GameCard.vue";
 import { Card, SelectedCard } from "./interfaces";
-import { shuffle } from "./helpers/index";
+import { shuffle, launchConfetti } from "./helpers/index";
 
 export default defineComponent({
   name: "App",
@@ -131,6 +131,11 @@ export default defineComponent({
       }
     };
 
+    watch(remainingPairs, (currentValue) => {
+      if (currentValue === 0) {
+        launchConfetti();
+      }
+    });
     watch(
       userSelection,
       (currentValue: SelectedCard[]) => {
@@ -209,10 +214,10 @@ export default defineComponent({
 
 .game-board {
   display: grid;
-  grid-template-columns: repeat(4, minmax(60px, 110px));
-  grid-template-rows: repeat(4, minmax(60px, 110px));
-  grid-column-gap: 16px;
-  grid-row-gap: 16px;
+  grid-template-columns: repeat(4, minmax(60px, 120px));
+  grid-template-rows: repeat(4, minmax(60px, 120px));
+  grid-column-gap: 1rem;
+  grid-row-gap: 1rem;
   justify-content: center;
 }
 

@@ -1,3 +1,4 @@
+import confetti from "canvas-confetti";
 import { Card } from "../interfaces";
 /**
  * Randomly shuffle an array
@@ -22,4 +23,32 @@ export const shuffle = (array: Card[]) => {
   }
 
   return array;
+};
+
+export const launchConfetti = () => {
+  const end = Date.now() + 10 * 1000;
+
+  // go Buckeyes!
+  const colors = ["#34495e", "#41b883", "#ffdc00", "#554d44"];
+
+  (function frame() {
+    confetti({
+      particleCount: 2,
+      angle: 60,
+      spread: 65,
+      origin: { x: 0 },
+      colors: colors,
+    });
+    confetti({
+      particleCount: 2,
+      angle: 120,
+      spread: 65,
+      origin: { x: 1 },
+      colors: colors,
+    });
+
+    if (Date.now() < end) {
+      requestAnimationFrame(frame);
+    }
+  })();
 };
