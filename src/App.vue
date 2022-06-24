@@ -1,5 +1,22 @@
 <template>
   <h1 class="title">Vue Matching Game</h1>
+  <section class="description">
+    <p class="description__text">
+      A Card matching game powered by Vue.js 3 and TypeScript
+    </p>
+  </section>
+  <button v-if="newPlayer" @click="startGame" class="button">
+    <img src="/assets/images/play.svg" alt="Start Icon" class="button__image" />
+    Start Game
+  </button>
+  <button v-else @click="restartGame" class="button">
+    <img
+      src="/assets/images/restart.svg"
+      alt="Restart Icon"
+      class="button__image"
+    />
+    Restart Game
+  </button>
   <transition-group tag="section" class="game-board" name="shuffle-cards">
     <GameCard
       v-for="card in cardList"
@@ -14,14 +31,6 @@
     <h2 class="status">{{ status }}</h2>
     <h2 class="turns">Turns: {{ turns }}</h2>
   </div>
-  <button @click="restartGame" class="button">
-    <img
-      src="/assets/images/restart.svg"
-      alt="Restart Icon"
-      class="button__image"
-    />
-    Restart Game
-  </button>
 </template>
 
 <script lang="ts">
@@ -38,6 +47,13 @@ export default defineComponent({
     const cardList = ref<Card[]>([]);
     const userSelection = ref<SelectedCard[]>([]);
     const turns = ref<number>(0);
+    const newPlayer = ref<boolean>(true);
+
+    const startGame = () => {
+      newPlayer.value = false;
+
+      restartGame();
+    };
 
     const increaseTurn = () => {
       turns.value++;
@@ -100,7 +116,7 @@ export default defineComponent({
         matched: false,
         variant: 2,
         value: item,
-        visible: false,
+        visible: true,
         position: index,
       });
     });
@@ -164,7 +180,9 @@ export default defineComponent({
       turns,
       flipCard,
       increaseTurn,
+      newPlayer,
       restartGame,
+      startGame,
       status,
       shuffleCards,
       userSelection,
@@ -182,7 +200,7 @@ export default defineComponent({
   -o-background-size: cover;
   background-size: cover;
   color: #111111;
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: "Raleway", sans-serif;
   min-height: 100vh;
   padding: 0 1rem;
   -webkit-font-smoothing: antialiased;
@@ -191,33 +209,40 @@ export default defineComponent({
 }
 
 .title {
-  font-size: 2rem;
-  padding: 1rem 0;
+  font-size: 2.5rem;
+  padding: 1.25rem 0;
   font-weight: bold;
+}
+
+.description__text {
+  font-size: 1.2rem;
 }
 
 .button {
   align-items: center;
   background-color: #554d44;
+  border: 0;
+  border-radius: 10px;
   cursor: pointer;
   color: #ffffff;
   display: flex;
-  font-weight: bold;
+  font-size: 1.2rem;
+  font-weight: semi-bold;
   justify-content: center;
-  margin: 0 auto;
-  padding: 0.75rem 0.5rem;
+  margin: 1rem auto;
+  padding: 0.75rem 1rem;
 }
 
 .button__image {
-  padding-right: 5px;
+  padding-right: 8px;
 }
 
 .game-board {
   display: grid;
-  grid-template-columns: repeat(4, minmax(60px, 120px));
-  grid-template-rows: repeat(4, minmax(60px, 120px));
-  grid-column-gap: 1rem;
-  grid-row-gap: 1rem;
+  grid-template-columns: repeat(4, minmax(60px, 110px));
+  grid-template-rows: repeat(4, minmax(60px, 110px));
+  grid-column-gap: 0.5rem;
+  grid-row-gap: 0.5rem;
   justify-content: center;
 }
 
@@ -227,15 +252,18 @@ export default defineComponent({
 }
 
 .info-container {
+  background: rgba(0, 0, 0, 0.25);
+  color: #ffffff;
   display: flex;
   justify-content: space-around;
-  margin: 0 auto;
+  margin: 0.5rem auto;
   min-width: 100px;
-  max-width: 400px;
+  max-width: 460px;
 }
 
 .status,
 .turns {
+  font-size: 1.3rem;
   font-weight: bold;
   padding: 1rem 0;
 }
