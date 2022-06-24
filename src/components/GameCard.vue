@@ -1,6 +1,6 @@
 <template>
-  <div class="card" @click="selectCard">
-    <div v-if="card.visible" class="card-face is-front">
+  <div class="card" @click="selectCard" :class="flippedStyles">
+    <div class="card-face is-front">
       <img
         :src="`/assets/images/${card.value}.png`"
         :alt="card.value"
@@ -13,12 +13,12 @@
         class="icon-checkmark"
       />
     </div>
-    <button v-else class="card-face is-back"></button>
+    <button class="card-face is-back"></button>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, computed } from "vue";
 import { Card } from "../interfaces";
 
 export default defineComponent({
@@ -30,6 +30,13 @@ export default defineComponent({
     },
   },
   setup(props, context) {
+    let flippedStyles = computed(() => {
+      if (props.card.visible) {
+        return "is-flipped";
+      }
+
+      return "";
+    });
     const selectCard = () => {
       context.emit("select-card", {
         faceValue: props.card.value,
@@ -38,6 +45,7 @@ export default defineComponent({
     };
 
     return {
+      flippedStyles,
       selectCard,
     };
   },
@@ -47,15 +55,23 @@ export default defineComponent({
 <style scoped>
 .card {
   position: relative;
+  transition: 0.5s transform ease-in;
+  transform-style: preserve-3d;
 }
 
+.card.is-flipped {
+  transform: rotateY(180deg);
+}
 .card-face {
   align-items: center;
+  backface-visibility: hidden;
   border-radius: 10px;
   display: flex;
   height: 100%;
   justify-content: center;
   width: 100%;
+  position: absolute;
+  backface-visibility: hidden;
 }
 
 .card-face__image {
@@ -65,7 +81,7 @@ export default defineComponent({
 .card-face.is-front {
   background-color: #ffdc00;
   color: #ffffff;
-  position: absolute;
+  transform: rotateY(180deg);
 }
 
 .card-face.is-back {

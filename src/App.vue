@@ -39,7 +39,7 @@ export default defineComponent({
     const userSelection = ref<SelectedCard[]>([]);
     const turns = ref<number>(0);
 
-    const increaseTurn = function () {
+    const increaseTurn = () => {
       turns.value++;
     };
 
