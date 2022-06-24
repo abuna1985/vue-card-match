@@ -1,15 +1,15 @@
 <template>
   <h1 class="title">Vue Matching Game</h1>
-  <section class="game-board">
+  <transition-group tag="section" class="game-board" name="shuffle-cards">
     <GameCard
-      v-for="(card, index) in cardList"
+      v-for="card in cardList"
       :value="card.value"
       :visible="card.visible"
-      :key="`card-${index}`"
+      :key="`${card.value}-${card.variant}`"
       @select-card="flipCard"
       :card="card"
     />
-  </section>
+  </transition-group>
   <div class="info-container">
     <h2 class="status">{{ status }}</h2>
     <h2 class="turns">Turns: {{ turns }}</h2>
@@ -91,12 +91,14 @@ export default defineComponent({
       cardList.value.push({
         matched: false,
         value: item,
+        variant: 1,
         visible: false,
         position: null,
       });
 
       cardList.value.push({
         matched: false,
+        variant: 2,
         value: item,
         visible: false,
         position: index,
@@ -231,5 +233,9 @@ export default defineComponent({
 .turns {
   font-weight: bold;
   padding: 1rem 0;
+}
+
+.shuffle-cards-move {
+  transition: transform 0.8s ease-in;
 }
 </style>

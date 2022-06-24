@@ -2,6 +2,7 @@ export interface Card {
   matched: boolean;
   position: number | null;
   value: string;
+  variant: number;
   visible: boolean;
 }
 
