@@ -1,9 +1,19 @@
 <template>
   <div class="card" @click="selectCard">
     <div v-if="card.visible" class="card-face is-front">
-      {{ card.value }} {{ card.matched }}
+      <img
+        :src="`/assets/images/${card.value}.png`"
+        :alt="card.value"
+        class="card-face__image"
+        loading="eager"
+      />
+      <img
+        v-if="card.matched"
+        src="/assets/images/checkmark.svg"
+        class="icon-checkmark"
+      />
     </div>
-    <button v-else class="card-face is-back">Back</button>
+    <button v-else class="card-face is-back"></button>
   </div>
 </template>
 
@@ -36,29 +46,43 @@ export default defineComponent({
 
 <style scoped>
 .card {
-  border: 5px solid #cccccc;
   position: relative;
 }
 
 .card-face {
+  align-items: center;
+  border-radius: 10px;
+  display: flex;
   height: 100%;
+  justify-content: center;
   width: 100%;
 }
 
+.card-face__image {
+  width: 60px;
+}
+
 .card-face.is-front {
-  background-color: #ff4136;
+  background-color: #ffdc00;
   color: #ffffff;
   position: absolute;
 }
 
 .card-face.is-back {
-  background-color: #0074d9;
+  background-color: #554d44;
+  background-image: url("../../public/assets/images/card-bg-empty.png");
   color: #ffffff;
   cursor: pointer;
 }
 
 .card-face.is-back:hover,
 .card-face.is-back:focus {
-  background-color: #0098d9;
+  background-color: #1f1c18;
+}
+
+.icon-checkmark {
+  bottom: 3px;
+  position: absolute;
+  right: 3px;
 }
 </style>

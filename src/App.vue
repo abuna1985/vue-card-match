@@ -1,5 +1,5 @@
 <template>
-  <h1>Vue Matching Game</h1>
+  <h1 class="title">Vue Matching Game</h1>
   <section class="game-board">
     <GameCard
       v-for="(card, index) in cardList"
@@ -10,8 +10,18 @@
       :card="card"
     />
   </section>
-  <h2>{{ status }}</h2>
-  <button @click="restartGame">Restart Game</button>
+  <div class="info-container">
+    <h2 class="status">{{ status }}</h2>
+    <h2 class="turns">Turns: {{ turns }}</h2>
+  </div>
+  <button @click="restartGame" class="button">
+    <img
+      src="/assets/images/restart.svg"
+      alt="Restart Icon"
+      class="button__image"
+    />
+    Restart Game
+  </button>
 </template>
 
 <script lang="ts">
@@ -27,6 +37,12 @@ export default defineComponent({
   setup() {
     const cardList = ref<Card[]>([]);
     const userSelection = ref<SelectedCard[]>([]);
+    const turns = ref<number>(0);
+
+    const increaseTurn = function () {
+      turns.value++;
+    };
+
     let status = computed(() => {
       if (remainingPairs.value === 0) {
         return "Player Wins!";
@@ -48,6 +64,7 @@ export default defineComponent({
     };
 
     const restartGame = () => {
+      turns.value = 0;
       shuffleCards();
 
       cardList.value = cardList.value.map((card, index) => {
@@ -59,7 +76,17 @@ export default defineComponent({
         };
       });
     };
-    const cardItems = [1, 2, 3, 4, 5, 6, 7, 8];
+
+    const cardItems = [
+      "backpack",
+      "campfire",
+      "camping",
+      "compass",
+      "deer",
+      "map",
+      "nature",
+      "sleeping-bag",
+    ];
     cardItems.forEach((item, index) => {
       cardList.value.push({
         matched: false,
@@ -82,7 +109,6 @@ export default defineComponent({
         position: index,
       };
     });
-
     const flipCard = (payload: SelectedCard) => {
       cardList.value[payload.position].visible = true;
 
@@ -96,6 +122,10 @@ export default defineComponent({
         userSelection.value[1] = payload;
       } else {
         userSelection.value[0] = payload;
+      }
+
+      if (cardList.value[payload.position].matched === false) {
+        increaseTurn();
       }
     };
 
@@ -124,7 +154,9 @@ export default defineComponent({
 
     return {
       cardList,
+      turns,
       flipCard,
+      increaseTurn,
       restartGame,
       status,
       shuffleCards,
@@ -136,25 +168,68 @@ export default defineComponent({
 
 <style>
 #app {
-  color: #2c3e50;
+  background: #a1e6e3 url("/public/assets/images/page-bg.png") no-repeat center
+    center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  color: #111111;
   font-family: Avenir, Helvetica, Arial, sans-serif;
+  min-height: 100vh;
+  padding: 0 1rem;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  margin-top: 60px;
   text-align: center;
+}
+
+.title {
+  font-size: 2rem;
+  padding: 1rem 0;
+  font-weight: bold;
+}
+
+.button {
+  align-items: center;
+  background-color: #554d44;
+  cursor: pointer;
+  color: #ffffff;
+  display: flex;
+  font-weight: bold;
+  justify-content: center;
+  margin: 0 auto;
+  padding: 0.75rem 0.5rem;
+}
+
+.button__image {
+  padding-right: 5px;
 }
 
 .game-board {
   display: grid;
-  grid-template-columns: 100px 100px 100px 100px;
-  grid-template-rows: 100px 100px 100px 100px;
-  grid-column-gap: 30px;
-  grid-row-gap: 30px;
+  grid-template-columns: repeat(4, minmax(60px, 110px));
+  grid-template-rows: repeat(4, minmax(60px, 110px));
+  grid-column-gap: 16px;
+  grid-row-gap: 16px;
   justify-content: center;
 }
 
 .card__button {
   height: 100%;
   width: 100%;
+}
+
+.info-container {
+  display: flex;
+  justify-content: space-around;
+  margin: 0 auto;
+  min-width: 100px;
+  max-width: 400px;
+}
+
+.status,
+.turns {
+  font-weight: bold;
+  padding: 1rem 0;
 }
 </style>
