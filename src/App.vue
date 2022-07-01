@@ -5,12 +5,13 @@ import GameCard from "./components/GameCard.vue";
 import { Card, SelectedCard } from "./interfaces";
 import { shuffle, launchConfetti } from "./helpers/index";
 import createDeck from "./features/createDeck";
+import campDeck from "./data/campDeck.json";
 
 export default defineComponent({
   name: "App",
   components: { GameCard },
   setup() {
-    const { cardList } = createDeck();
+    const { cardList } = createDeck(campDeck);
 
     console.log;
     const userSelection = ref<SelectedCard[]>([]);

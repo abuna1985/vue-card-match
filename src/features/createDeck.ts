@@ -3,17 +3,6 @@ import { Card } from "../interfaces";
 
 const cardList = ref<Card[]>([]);
 
-const cardItems = [
-  "backpack",
-  "campfire",
-  "camping",
-  "compass",
-  "deer",
-  "map",
-  "nature",
-  "sleeping-bag",
-];
-
 const initDeck = (deckData: string[]) => {
   deckData.forEach((item, index) => {
     cardList.value.push({
@@ -43,8 +32,8 @@ const updateCardPosition = () => {
   });
 };
 
-export default function createDeck() {
-  initDeck(cardItems);
+export default function createDeck(deckData: string[]) {
+  initDeck(deckData);
   updateCardPosition();
 
   return {
