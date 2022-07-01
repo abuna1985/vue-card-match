@@ -1,66 +1,28 @@
 <script lang="ts">
-import { computed, ref, watch } from "vue";
-import { defineComponent } from "vue";
+import { ref, watch, defineComponent } from "vue";
 import GameCard from "./components/GameCard.vue";
-import { Card, SelectedCard } from "./interfaces";
-import { shuffle, launchConfetti } from "./helpers/index";
+import { SelectedCard } from "./interfaces";
+import { launchConfetti } from "./helpers/index";
 import createDeck from "./features/createDeck";
 import campDeck from "./data/campDeck.json";
+import createGame from "./features/createGame";
 
 export default defineComponent({
   name: "App",
   components: { GameCard },
   setup() {
     const { cardList } = createDeck(campDeck);
+    let {
+      newPlayer,
+      startGame,
+      restartGame,
+      increaseTurn,
+      status,
+      remainingPairs,
+      turns,
+    } = createGame(cardList);
 
-    console.log;
     const userSelection = ref<SelectedCard[]>([]);
-    const turns = ref<number>(0);
-    const newPlayer = ref<boolean>(true);
-
-    const startGame = () => {
-      newPlayer.value = false;
-
-      restartGame();
-    };
-
-    const increaseTurn = () => {
-      turns.value++;
-    };
-
-    let status = computed(() => {
-      if (remainingPairs.value === 0) {
-        return "Player Wins!";
-      } else {
-        return `Remaining Pairs: ${remainingPairs.value}`;
-      }
-    });
-
-    const remainingPairs = computed(() => {
-      const remainingCards = cardList.value.filter(
-        (card: Card) => card.matched === false
-      ).length;
-
-      return remainingCards / 2;
-    });
-
-    const shuffleCards = () => {
-      cardList.value = shuffle(cardList.value);
-    };
-
-    const restartGame = () => {
-      turns.value = 0;
-      shuffleCards();
-
-      cardList.value = cardList.value.map((card, index) => {
-        return {
-          ...card,
-          matched: false,
-          position: index,
-          visible: false,
-        };
-      });
-    };
 
     const flipCard = (payload: SelectedCard) => {
       cardList.value[payload.position].visible = true;
@@ -112,15 +74,14 @@ export default defineComponent({
 
     return {
       cardList,
-      turns,
       flipCard,
-      increaseTurn,
-      newPlayer,
-      restartGame,
-      startGame,
       status,
-      shuffleCards,
       userSelection,
+      newPlayer,
+      startGame,
+      restartGame,
+      turns,
+      increaseTurn,
     };
   },
 });
