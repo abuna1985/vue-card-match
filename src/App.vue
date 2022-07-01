@@ -1,38 +1,3 @@
-<template>
-  <h1 class="title">Vue Matching Game</h1>
-  <section class="description">
-    <p class="description__text">
-      A Card matching game powered by Vue.js 3 and TypeScript
-    </p>
-  </section>
-  <button v-if="newPlayer" @click="startGame" class="button">
-    <img src="/assets/images/play.svg" alt="Start Icon" class="button__image" />
-    Start Game
-  </button>
-  <button v-else @click="restartGame" class="button">
-    <img
-      src="/assets/images/restart.svg"
-      alt="Restart Icon"
-      class="button__image"
-    />
-    Restart Game
-  </button>
-  <transition-group tag="section" class="game-board" name="shuffle-cards">
-    <GameCard
-      v-for="card in cardList"
-      :value="card.value"
-      :visible="card.visible"
-      :key="`${card.value}-${card.variant}`"
-      @select-card="flipCard"
-      :card="card"
-    />
-  </transition-group>
-  <div class="info-container">
-    <h2 class="status">{{ status }}</h2>
-    <h2 class="turns">Turns: {{ turns }}</h2>
-  </div>
-</template>
-
 <script lang="ts">
 import { computed, ref, watch } from "vue";
 import { defineComponent } from "vue";
@@ -190,6 +155,41 @@ export default defineComponent({
   },
 });
 </script>
+
+<template>
+  <h1 class="title">Vue Matching Game</h1>
+  <section class="description">
+    <p class="description__text">
+      A Card matching game powered by Vue.js 3 and TypeScript
+    </p>
+  </section>
+  <button v-if="newPlayer" @click="startGame" class="button">
+    <img src="/assets/images/play.svg" alt="Start Icon" class="button__image" />
+    Start Game
+  </button>
+  <button v-else @click="restartGame" class="button">
+    <img
+      src="/assets/images/restart.svg"
+      alt="Restart Icon"
+      class="button__image"
+    />
+    Restart Game
+  </button>
+  <transition-group tag="section" class="game-board" name="shuffle-cards">
+    <GameCard
+      v-for="card in cardList"
+      :value="card.value"
+      :visible="card.visible"
+      :key="`${card.value}-${card.variant}`"
+      @select-card="flipCard"
+      :card="card"
+    />
+  </transition-group>
+  <div class="info-container">
+    <h2 class="status">{{ status }}</h2>
+    <h2 class="turns">Turns: {{ turns }}</h2>
+  </div>
+</template>
 
 <style>
 #app {
