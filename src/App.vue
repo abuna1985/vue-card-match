@@ -4,12 +4,15 @@ import { defineComponent } from "vue";
 import GameCard from "./components/GameCard.vue";
 import { Card, SelectedCard } from "./interfaces";
 import { shuffle, launchConfetti } from "./helpers/index";
+import createDeck from "./features/createDeck";
 
 export default defineComponent({
   name: "App",
   components: { GameCard },
   setup() {
-    const cardList = ref<Card[]>([]);
+    const { cardList } = createDeck();
+
+    console.log;
     const userSelection = ref<SelectedCard[]>([]);
     const turns = ref<number>(0);
     const newPlayer = ref<boolean>(true);
@@ -58,40 +61,6 @@ export default defineComponent({
       });
     };
 
-    const cardItems = [
-      "backpack",
-      "campfire",
-      "camping",
-      "compass",
-      "deer",
-      "map",
-      "nature",
-      "sleeping-bag",
-    ];
-    cardItems.forEach((item, index) => {
-      cardList.value.push({
-        matched: false,
-        value: item,
-        variant: 1,
-        visible: false,
-        position: null,
-      });
-
-      cardList.value.push({
-        matched: false,
-        variant: 2,
-        value: item,
-        visible: true,
-        position: index,
-      });
-    });
-
-    cardList.value = cardList.value.map((card, index) => {
-      return {
-        ...card,
-        position: index,
-      };
-    });
     const flipCard = (payload: SelectedCard) => {
       cardList.value[payload.position].visible = true;
 
