@@ -1,6 +1,7 @@
 <script lang="ts">
 import { ref, watch, defineComponent } from "vue";
-import GameCard from "./components/GameCard.vue";
+import GameBoard from "./components/GameBoard.vue";
+import AppFooter from "./components/AppFooter.vue";
 import { SelectedCard } from "./interfaces";
 import { launchConfetti } from "./helpers/index";
 import createDeck from "./features/createDeck";
@@ -9,7 +10,7 @@ import createGame from "./features/createGame";
 
 export default defineComponent({
   name: "App",
-  components: { GameCard },
+  components: { GameBoard, AppFooter },
   setup() {
     const { cardList } = createDeck(campDeck);
     let {
@@ -23,24 +24,29 @@ export default defineComponent({
     } = createGame(cardList);
 
     const userSelection = ref<SelectedCard[]>([]);
+    const userCanFlipCard = ref<boolean>(true);
 
     const flipCard = (payload: SelectedCard) => {
-      cardList.value[payload.position].visible = true;
+      if (userCanFlipCard.value) {
+        cardList.value[payload.position].visible = true;
 
-      if (userSelection.value[0]) {
-        if (
-          userSelection.value[0].position === payload.position &&
-          userSelection.value[0].faceValue === payload.faceValue
-        ) {
-          return;
+        if (userSelection.value[0]) {
+          if (
+            userSelection.value[0].position === payload.position &&
+            userSelection.value[0].faceValue === payload.faceValue
+          ) {
+            return;
+          }
+          userSelection.value[1] = payload;
+        } else {
+          userSelection.value[0] = payload;
         }
-        userSelection.value[1] = payload;
-      } else {
-        userSelection.value[0] = payload;
-      }
 
-      if (cardList.value[payload.position].matched === false) {
-        increaseTurn();
+        if (cardList.value[payload.position].matched === false) {
+          increaseTurn();
+        }
+      } else {
+        return;
       }
     };
 
@@ -54,14 +60,19 @@ export default defineComponent({
       (currentValue: SelectedCard[]) => {
         if (currentValue.length === 2) {
           const [cardOne, cardTwo] = currentValue;
+          // Disable ability to flip cards
+          userCanFlipCard.value = false;
 
           if (cardOne.faceValue === cardTwo.faceValue) {
             cardList.value[cardOne.position].matched = true;
             cardList.value[cardTwo.position].matched = true;
+            userCanFlipCard.value = true;
           } else {
             setTimeout(() => {
               cardList.value[cardOne.position].visible = false;
               cardList.value[cardTwo.position].visible = false;
+              // Allow user to flip a new card
+              userCanFlipCard.value = true;
             }, 2000);
           }
 
@@ -75,13 +86,13 @@ export default defineComponent({
     return {
       cardList,
       flipCard,
-      status,
-      userSelection,
-      newPlayer,
-      startGame,
-      restartGame,
-      turns,
       increaseTurn,
+      newPlayer,
+      restartGame,
+      startGame,
+      status,
+      turns,
+      userSelection,
     };
   },
 });
@@ -106,20 +117,13 @@ export default defineComponent({
     />
     Restart Game
   </button>
-  <transition-group tag="section" class="game-board" name="shuffle-cards">
-    <GameCard
-      v-for="card in cardList"
-      :value="card.value"
-      :visible="card.visible"
-      :key="`${card.value}-${card.variant}`"
-      @select-card="flipCard"
-      :card="card"
-    />
-  </transition-group>
-  <div class="info-container">
-    <h2 class="status">{{ status }}</h2>
-    <h2 class="turns">Turns: {{ turns }}</h2>
-  </div>
+  <game-board
+    :cardList="cardList"
+    :status="status"
+    :turns="turns"
+    @flip-card="flipCard"
+  ></game-board>
+  <app-footer></app-footer>
 </template>
 
 <style>
