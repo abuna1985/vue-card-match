@@ -1,5 +1,6 @@
 import { ref } from "vue";
 import { Card } from "../interfaces";
+import { setupFunction } from "@/types";
 
 const cardList = ref<Card[]>([]);
 
@@ -23,7 +24,7 @@ const initDeck = (deckData: string[]) => {
   });
 };
 
-const updateCardPosition = () => {
+const updateCardPosition: setupFunction = () => {
   cardList.value = cardList.value.map((card, index) => {
     return {
       ...card,
