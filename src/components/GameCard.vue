@@ -1,3 +1,40 @@
+<script lang="ts">
+import { defineComponent, computed } from "vue";
+import { Card } from "../interfaces";
+
+export default defineComponent({
+  name: "game-card",
+  props: {
+    card: {
+      type: Object as () => Card,
+      required: true,
+    },
+  },
+  emits: ["select-card"],
+  setup(props, context) {
+    let flippedStyles = computed(() => {
+      if (props.card.visible) {
+        return "is-flipped";
+      }
+
+      return "";
+    });
+
+    const selectCard = () => {
+      context.emit("select-card", {
+        faceValue: props.card.value,
+        position: props.card.position,
+      });
+    };
+
+    return {
+      flippedStyles,
+      selectCard,
+    };
+  },
+});
+</script>
+
 <template>
   <div class="card" @click="selectCard" :class="flippedStyles">
     <div class="card-face is-front">
@@ -16,41 +53,6 @@
     <button class="card-face is-back"></button>
   </div>
 </template>
-
-<script lang="ts">
-import { defineComponent, computed } from "vue";
-import { Card } from "../interfaces";
-
-export default defineComponent({
-  name: "game-card",
-  props: {
-    card: {
-      type: Object as () => Card,
-      required: true,
-    },
-  },
-  setup(props, context) {
-    let flippedStyles = computed(() => {
-      if (props.card.visible) {
-        return "is-flipped";
-      }
-
-      return "";
-    });
-    const selectCard = () => {
-      context.emit("select-card", {
-        faceValue: props.card.value,
-        position: props.card.position,
-      });
-    };
-
-    return {
-      flippedStyles,
-      selectCard,
-    };
-  },
-});
-</script>
 
 <style scoped>
 .card {
