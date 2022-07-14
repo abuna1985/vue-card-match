@@ -147,8 +147,8 @@ a:active {
   background-size: cover;
   color: #554d44;
   font-family: "Raleway", sans-serif;
-  height: 100vh;
-  min-height: 100vh;
+  height: 100%;
+  max-height: 100vh;
   position: relative;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
