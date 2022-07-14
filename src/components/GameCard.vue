@@ -43,14 +43,14 @@ export default defineComponent({
   <div class="card" @click="selectCard" :class="flippedStyles">
     <div class="card-face is-front">
       <img
-        :src="`/assets/images/${card.value}.png`"
+        :src="`assets/images/${card.value}.png`"
         :alt="card.value"
         class="card-face__image"
         loading="eager"
       />
       <img
         v-if="card.matched"
-        src="/assets/images/checkmark.svg"
+        src="assets/images/checkmark.svg"
         class="icon-checkmark"
       />
     </div>

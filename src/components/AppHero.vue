@@ -14,7 +14,7 @@
       >
         <img
           :class="$style['powered-logo']"
-          src="/assets/images/vue-logo.svg"
+          src="assets/images/vue-logo.svg"
           alt="Vue.js logo"
         />
         Vue.js 3
@@ -40,7 +40,7 @@
       >
         <img
           :class="$style['powered-logo']"
-          src="/assets/images/github-logo.svg"
+          src="assets/images/github-logo.svg"
           alt="GitHub Logo"
         />
         GitHub</a
