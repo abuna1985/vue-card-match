@@ -24,7 +24,7 @@
   bottom: 0;
   font-size: 0.85rem;
   height: 3.25rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0;
   position: absolute;
   width: 100%;
 }
@@ -36,11 +36,5 @@
 
 .footer__link {
   color: #ffffff;
-}
-
-@media screen and (min-width: 600px) {
-  .footer {
-    margin-bottom: 0;
-  }
 }
 </style>
