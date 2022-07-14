@@ -1,6 +1,7 @@
 <script lang="ts">
 import { ref, watch, defineComponent } from "vue";
 import GameBoard from "./components/GameBoard.vue";
+import NewGameButton from "./components/NewGameButton.vue";
 import AppFooter from "./components/AppFooter.vue";
 import { SelectedCard } from "./interfaces";
 import { launchConfetti } from "./helpers/index";
@@ -10,7 +11,7 @@ import createGame from "./features/createGame";
 
 export default defineComponent({
   name: "App",
-  components: { GameBoard, AppFooter },
+  components: { GameBoard, AppFooter, NewGameButton },
   setup() {
     const { cardList } = createDeck(campDeck);
     let {
@@ -26,8 +27,16 @@ export default defineComponent({
     const userSelection = ref<SelectedCard[]>([]);
     const userCanFlipCard = ref<boolean>(true);
 
+    const startNewGame = () => {
+      if (newPlayer) {
+        startGame();
+      } else {
+        restartGame();
+      }
+    };
+
     const flipCard = (payload: SelectedCard) => {
-      if (userCanFlipCard.value) {
+      if (userCanFlipCard.value && newPlayer.value === false) {
         cardList.value[payload.position].visible = true;
 
         if (userSelection.value[0]) {
@@ -88,8 +97,7 @@ export default defineComponent({
       flipCard,
       increaseTurn,
       newPlayer,
-      restartGame,
-      startGame,
+      startNewGame,
       status,
       turns,
       userSelection,
@@ -105,20 +113,13 @@ export default defineComponent({
       A Card matching game powered by Vue.js 3 and TypeScript
     </p>
   </section>
-  <button v-if="newPlayer" @click="startGame" class="button">
-    <img src="/assets/images/play.svg" alt="Start Icon" class="button__image" />
-    Start Game
-  </button>
-  <button v-else @click="restartGame" class="button">
-    <img
-      src="/assets/images/restart.svg"
-      alt="Restart Icon"
-      class="button__image"
-    />
-    Restart Game
-  </button>
+  <new-game-button
+    :newPlayer="newPlayer"
+    @start-new-game="startNewGame"
+  ></new-game-button>
   <game-board
     :cardList="cardList"
+    :newPlayer="newPlayer"
     :status="status"
     :turns="turns"
     @flip-card="flipCard"
@@ -127,6 +128,11 @@ export default defineComponent({
 </template>
 
 <style>
+html,
+body {
+  height: 100%;
+  width: 100%;
+}
 #app {
   background: #a1e6e3 url("/public/assets/images/page-bg.png") no-repeat center
     center fixed;
@@ -136,7 +142,7 @@ export default defineComponent({
   background-size: cover;
   color: #111111;
   font-family: "Raleway", sans-serif;
-  min-height: 100vh;
+  height: 100vh;
   padding: 0 1rem;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -144,8 +150,8 @@ export default defineComponent({
 }
 
 .title {
-  font-size: 2.5rem;
-  padding: 1.25rem 0;
+  font-size: 1.5rem;
+  padding: 0.75rem 0;
   font-weight: bold;
 }
 
@@ -153,29 +159,10 @@ export default defineComponent({
   font-size: 1.2rem;
 }
 
-.button {
-  align-items: center;
-  background-color: #554d44;
-  border: 0;
-  border-radius: 10px;
-  cursor: pointer;
-  color: #ffffff;
-  display: flex;
-  font-size: 1.2rem;
-  font-weight: semi-bold;
-  justify-content: center;
-  margin: 1rem auto;
-  padding: 0.75rem 1rem;
-}
-
-.button__image {
-  padding-right: 8px;
-}
-
 .game-board {
   display: grid;
-  grid-template-columns: repeat(4, minmax(60px, 110px));
-  grid-template-rows: repeat(4, minmax(60px, 110px));
+  grid-template-columns: repeat(4, minmax(40px, 80px));
+  grid-template-rows: repeat(4, minmax(40px, 80px));
   grid-column-gap: 0.5rem;
   grid-row-gap: 0.5rem;
   justify-content: center;
@@ -193,7 +180,7 @@ export default defineComponent({
   justify-content: space-around;
   margin: 0.5rem auto;
   min-width: 100px;
-  max-width: 460px;
+  max-width: 350px;
 }
 
 .status,
@@ -204,6 +191,17 @@ export default defineComponent({
 }
 
 .shuffle-cards-move {
-  transition: transform 0.8s ease-in;
+  transition: transform 1.2s ease-in;
+}
+
+@media screen and (min-width: 600px) {
+  .game-board {
+    grid-template-columns: repeat(4, minmax(40px, 100px));
+    grid-template-rows: repeat(4, minmax(40px, 100px));
+  }
+
+  .info-container {
+    max-width: 420px;
+  }
 }
 </style>

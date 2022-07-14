@@ -9,6 +9,10 @@ export default defineComponent({
       type: Object as () => Card,
       required: true,
     },
+    newPlayer: {
+      type: Boolean,
+      required: true,
+    },
   },
   emits: ["select-card"],
   setup(props, context) {
@@ -50,7 +54,7 @@ export default defineComponent({
         class="icon-checkmark"
       />
     </div>
-    <button class="card-face is-back"></button>
+    <button :disabled="newPlayer" class="card-face is-back"></button>
   </div>
 </template>
 
@@ -77,7 +81,7 @@ export default defineComponent({
 }
 
 .card-face__image {
-  width: 60px;
+  max-width: 35px;
 }
 
 .card-face.is-front {
@@ -93,14 +97,37 @@ export default defineComponent({
   cursor: pointer;
 }
 
+.card-face.is-back:disabled:hover,
+.card-face.is-back:disabled:focus {
+  cursor: default;
+}
+
+.card-face.is-back:disabled:hover,
+.card-face.is-back:disabled:focus {
+  background-color: #554d44;
+}
 .card-face.is-back:hover,
 .card-face.is-back:focus {
   background-color: #1f1c18;
 }
 
 .icon-checkmark {
-  bottom: 3px;
+  width: 15px;
+  bottom: 5px;
   position: absolute;
-  right: 3px;
+  right: 5px;
+}
+
+@media screen and (min-width: 600px) {
+  .card-face__image {
+    max-width: 45px;
+  }
+
+  .icon-checkmark {
+    width: 25px;
+    bottom: 3px;
+    position: absolute;
+    right: 3px;
+  }
 }
 </style>

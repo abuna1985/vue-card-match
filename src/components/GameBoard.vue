@@ -11,6 +11,10 @@ export default defineComponent({
       type: Array as PropType<Array<Card>>,
       required: true,
     },
+    newPlayer: {
+      type: Boolean,
+      required: true,
+    },
     status: {
       type: String,
       required: true,
@@ -33,16 +37,17 @@ export default defineComponent({
 });
 </script>
 <template>
-  <TransitionGroup tag="section" class="game-board" name="shuffle-cards">
-    <GameCard
+  <transition-group tag="section" class="game-board" name="shuffle-cards">
+    <game-card
       v-for="card in cardList"
+      :newPlayer="newPlayer"
       :value="card.value"
       :visible="card.visible"
       :key="`${card.value}-${card.variant}`"
       @select-card="selectCard"
       :card="card"
     />
-  </TransitionGroup>
+  </transition-group>
   <div class="info-container">
     <h2 class="status">{{ status }}</h2>
     <h2 class="turns">Turns: {{ turns }}</h2>
