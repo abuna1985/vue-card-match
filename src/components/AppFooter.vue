@@ -24,7 +24,7 @@
   bottom: 0;
   font-size: 0.85rem;
   height: 3.25rem;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
   position: absolute;
   width: 100%;
 }
