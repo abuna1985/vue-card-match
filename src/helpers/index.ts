@@ -28,7 +28,7 @@ export const shuffle = (array: Card[]) => {
 export const launchConfetti = () => {
   const end = Date.now() + 10 * 1000;
 
-  // go Buckeyes!
+  // Forest Theme Confetti
   const colors = ["#34495e", "#41b883", "#ffdc00", "#554d44"];
 
   (function frame() {
