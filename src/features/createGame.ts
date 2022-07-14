@@ -32,7 +32,6 @@ export default function createGame(deck: Ref<Card[]>) {
         visible: false,
       };
     });
-    console.log({ deck });
   };
 
   const status: ComputedRef<string> = computed(() => {
