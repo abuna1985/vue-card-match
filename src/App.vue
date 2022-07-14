@@ -2,6 +2,7 @@
 import { ref, watch, defineComponent } from "vue";
 import GameBoard from "./components/GameBoard.vue";
 import NewGameButton from "./components/NewGameButton.vue";
+import AppHero from "./components/AppHero.vue";
 import AppFooter from "./components/AppFooter.vue";
 import { SelectedCard } from "./interfaces";
 import { launchConfetti } from "./helpers/index";
@@ -11,7 +12,7 @@ import createGame from "./features/createGame";
 
 export default defineComponent({
   name: "App",
-  components: { GameBoard, AppFooter, NewGameButton },
+  components: { GameBoard, AppFooter, NewGameButton, AppHero },
   setup() {
     const { cardList } = createDeck(campDeck);
     let {
@@ -108,12 +109,7 @@ export default defineComponent({
 
 <template>
   <div class="content-wrap">
-    <h1 class="title">Vue Matching Game</h1>
-    <section class="description">
-      <p class="description__text">
-        A Card matching game powered by Vue.js 3 and TypeScript
-      </p>
-    </section>
+    <app-hero></app-hero>
     <new-game-button
       :newPlayer="newPlayer"
       @start-new-game="startNewGame"
@@ -135,6 +131,13 @@ body {
   height: 100%;
   width: 100%;
 }
+
+a:hover,
+a:active {
+  color: #2ecc40;
+  text-decoration: none;
+}
+
 #app {
   background: #a1e6e3 url("/public/assets/images/page-bg.png") no-repeat center
     center fixed;
@@ -142,7 +145,7 @@ body {
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
-  color: #111111;
+  color: #554d44;
   font-family: "Raleway", sans-serif;
   height: 100vh;
   position: relative;
@@ -154,16 +157,6 @@ body {
 .content-wrap {
   padding-top: 0;
   padding-bottom: 0; /* Footer height */
-}
-
-.title {
-  font-size: 1.5rem;
-  padding: 0.75rem 0;
-  font-weight: bold;
-}
-
-.description__text {
-  font-size: 1.2rem;
 }
 
 .game-board {
@@ -194,7 +187,7 @@ body {
 .turns {
   font-size: 1.3rem;
   font-weight: bold;
-  padding: 1rem 0;
+  padding: 0.75rem 0;
 }
 
 .shuffle-cards-move {
@@ -212,6 +205,7 @@ body {
   }
 
   .content-wrap {
+    margin-bottom: 0;
     padding-bottom: 1.25rem; /* Footer height */
   }
 }
