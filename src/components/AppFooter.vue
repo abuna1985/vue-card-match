@@ -22,8 +22,9 @@
   background-color: rgba(0, 0, 0, 0.25);
   color: #ffffff;
   bottom: 0;
-  height: 3.5rem;
-  position: absolute;
+  font-size: 0.85rem;
+  height: 3.25rem;
+  position: relative;
   width: 100%;
 }
 
@@ -36,9 +37,9 @@
   color: #ffffff;
 }
 
-.footer__link:hover,
-.footer__link:active {
-  color: #2ecc40;
-  text-decoration: none;
+@media screen and (min-width: 600px) {
+  .footer {
+    position: absolute;
+  }
 }
 </style>
