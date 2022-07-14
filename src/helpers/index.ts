@@ -29,7 +29,7 @@ export const launchConfetti = () => {
   const end = Date.now() + 10 * 1000;
 
   // Forest Theme Confetti
-  const colors = ["#34495e", "#41b883", "#ffdc00", "#554d44"];
+  const colors = ["#2ecc40", "#3D9970", "#ffdc00", "#554d44"];
 
   (function frame() {
     confetti({
