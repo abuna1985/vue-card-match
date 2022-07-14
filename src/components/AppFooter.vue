@@ -24,7 +24,7 @@
   bottom: 0;
   font-size: 0.85rem;
   height: 3.25rem;
-  position: relative;
+  position: absolute;
   width: 100%;
 }
 
@@ -35,11 +35,5 @@
 
 .footer__link {
   color: #ffffff;
-}
-
-@media screen and (min-width: 600px) {
-  .footer {
-    position: absolute;
-  }
 }
 </style>
