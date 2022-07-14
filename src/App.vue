@@ -107,23 +107,25 @@ export default defineComponent({
 </script>
 
 <template>
-  <h1 class="title">Vue Matching Game</h1>
-  <section class="description">
-    <p class="description__text">
-      A Card matching game powered by Vue.js 3 and TypeScript
-    </p>
-  </section>
-  <new-game-button
-    :newPlayer="newPlayer"
-    @start-new-game="startNewGame"
-  ></new-game-button>
-  <game-board
-    :cardList="cardList"
-    :newPlayer="newPlayer"
-    :status="status"
-    :turns="turns"
-    @flip-card="flipCard"
-  ></game-board>
+  <div class="content-wrap">
+    <h1 class="title">Vue Matching Game</h1>
+    <section class="description">
+      <p class="description__text">
+        A Card matching game powered by Vue.js 3 and TypeScript
+      </p>
+    </section>
+    <new-game-button
+      :newPlayer="newPlayer"
+      @start-new-game="startNewGame"
+    ></new-game-button>
+    <game-board
+      :cardList="cardList"
+      :newPlayer="newPlayer"
+      :status="status"
+      :turns="turns"
+      @flip-card="flipCard"
+    ></game-board>
+  </div>
   <app-footer></app-footer>
 </template>
 
@@ -143,10 +145,15 @@ body {
   color: #111111;
   font-family: "Raleway", sans-serif;
   height: 100vh;
-  padding: 0 1rem;
+  position: relative;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
+}
+
+.content-wrap {
+  padding-top: 0;
+  padding-bottom: 0; /* Footer height */
 }
 
 .title {
@@ -174,7 +181,7 @@ body {
 }
 
 .info-container {
-  background: rgba(0, 0, 0, 0.25);
+  background-color: rgba(0, 0, 0, 0.25);
   color: #ffffff;
   display: flex;
   justify-content: space-around;
@@ -202,6 +209,10 @@ body {
 
   .info-container {
     max-width: 420px;
+  }
+
+  .content-wrap {
+    padding-bottom: 1.25rem; /* Footer height */
   }
 }
 </style>
