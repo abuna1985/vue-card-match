@@ -6,7 +6,7 @@
 [![GitHub package.json dependency version (dev dep on branch)](https://img.shields.io/github/package-json/dependency-version/abuna1985/vue-memory-game/dev/typescript?color=green)](https://www.typescriptlang.org/)
 [![GitHub commits](https://badgen.net/github/commits/abuna1985/vue-memory-game/main?color=green)](https://github.com/abuna1985/vue-memory-game/commits/)
 [![GitHub stars](https://badgen.net/github/stars/abuna1985/vue-memory-game?color=green)](https://github.com/abuna1985/vue-memory-game/stargazers/)
-[![GitHub watchers](https://badgen.net/github/watchers/abuna1985/vue-memory-game?color=green)](https://GitHub.com/abuna1985/sortable-tables/watchers/)
+[![GitHub watchers](https://badgen.net/github/watchers/abuna1985/vue-memory-game?color=green)](https://github.com/abuna1985/vue-memory-game/watchers/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 <br>
 
