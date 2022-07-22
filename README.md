@@ -32,10 +32,10 @@ This is a memory card matching game that showcases my mastery of Vue.js (version
 
 I also added the following to my project:
 
-* TypeScript declarations
+* TypeScript Declarations
 * Web Accessibility
   * Made the back of the cards `<button>` elements so they can be accessed by the keyboard
-  * Their default `disabled` is true until the `Start Game` button is clicked
+  * The card button default state is `disabled` until the `Start Game` button is clicked
 * Additional State
   * Displaying the total number of `turns` the player takes to to complete the game.
 
