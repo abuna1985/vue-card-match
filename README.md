@@ -34,7 +34,7 @@ I also added the following to my project:
 
 * TypeScript Declarations
 * Web Accessibility
-  * Made the back of the cards `<button>` elements so they can be accessed by the keyboard
+  * Made the back of the cards `<button>` elements so they can be accessed by the keyboard (`tab` and `shift + tab`)
   * The card button default state is `disabled` until the `Start Game` button is clicked
 * Additional State
   * Displaying the total number of `turns` the player takes to to complete the game.
