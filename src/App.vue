@@ -37,7 +37,6 @@
 			};
 
 			const flipCard = (payload: SelectedCard) => {
-				console.log(payload)
 				if (payload.matched === true ) return;
 				if (userCanFlipCard.value && newPlayer.value === false) {
 					cardList.value[payload.position].visible = true;
@@ -54,7 +53,6 @@
 						userSelection.value[0] = payload;
 					}
 
-					console.log(cardList.value[payload.position]);
 					if (cardList.value[payload.position].matched === false) {
 						increaseTurn();
 					}
