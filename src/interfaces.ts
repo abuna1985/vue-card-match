@@ -9,4 +9,5 @@ export interface Card {
 export interface SelectedCard {
   faceValue: number;
   position: number;
+  matched: boolean;
 }
